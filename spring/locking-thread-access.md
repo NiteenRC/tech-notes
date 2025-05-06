@@ -102,3 +102,13 @@ SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 | Pessimistic Locking | ✅               | High conflict, critical ops  |
 | Redis Locking       | ✅               | Distributed access control   |
 | Sagas/Event Sourcing| ⚠️ Eventually    | Distributed long-lived workflows |
+
+
+## 🔑 Key Takeaways
+1. **Dirty reads** occur when uncommitted data is accessed, leading to inconsistencies.
+2. Use **transaction isolation levels** to prevent dirty reads in single systems.
+3. For distributed systems, use **distributed locks** or **eventual consistency mechanisms** like Sagas.
+4. Choose the right locking strategy based on the use case:
+   - **Optimistic Locking**: Low conflict, high scalability.
+   - **Pessimistic Locking**: High conflict, critical operations.
+   - **Distributed Locking**: Cross-service resource management.

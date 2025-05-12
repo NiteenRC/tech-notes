@@ -1,4 +1,3 @@
-
 ## 🗂️ Table: Employee
 
 | id | name | managerId |
@@ -14,6 +13,7 @@
 ## ✅ 1. Get employees who are not managers
 
 ### 🔍 Query
+
 ```sql
 SELECT name
 FROM Employee
@@ -27,7 +27,7 @@ WHERE id NOT IN (
 ### 📋 Output
 
 | name |
-| ---- |
+|------|
 | abc  |
 | xyz  |
 
@@ -46,7 +46,7 @@ JOIN Employee e2 ON e1.managerId = e2.id;
 ### 📋 Output
 
 | employee\_name | manager\_name |
-| -------------- | ------------- |
+|----------------|---------------|
 | ggg            | lmn           |
 | abc            | lmn           |
 | pqr            | ggg           |

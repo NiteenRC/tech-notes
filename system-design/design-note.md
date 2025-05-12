@@ -1,4 +1,5 @@
 # 🛠️ Scaling the Craft of Software Engineering
+
 ### What Changes When Your Team, Traffic, and Codebase Grow
 
 **Dear Software Engineers,**
@@ -138,6 +139,7 @@ But truly great engineers know:
 
 ### 💬 Final Thoughts
 
-Whether you're scaling from 1 user to 10 million, or from solo dev to global teams, software engineering is ultimately about making the right calls at the right time.
+Whether you're scaling from 1 user to 10 million, or from solo dev to global teams, software engineering is ultimately
+about making the right calls at the right time.
 
 **Build like the future depends on it—because it does.**

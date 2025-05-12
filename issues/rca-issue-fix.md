@@ -5,6 +5,7 @@ A clear and professional approach to identify, analyze, and resolve reported iss
 ---
 
 ## ✅ 1. Acknowledge & Understand the Issue
+
 - Acknowledge the issue report and thank the reporter.
 - Ask clarifying questions:
     - What were you doing?
@@ -15,6 +16,7 @@ A clear and professional approach to identify, analyze, and resolve reported iss
 ---
 
 ## 🔍 2. Reproduce the Issue (If Applicable)
+
 - Attempt to recreate the issue in a local or staging environment.
 - Use the same configuration, input, data, and user flow.
 - If it’s not reproducible:
@@ -24,6 +26,7 @@ A clear and professional approach to identify, analyze, and resolve reported iss
 ---
 
 ## 🧠 3. Root Cause Analysis
+
 - Investigate using:
     - Logs
     - Monitoring dashboards
@@ -36,6 +39,7 @@ A clear and professional approach to identify, analyze, and resolve reported iss
 ---
 
 ## 🛠️ 4. Fix the Issue
+
 - Implement a fix that addresses the root cause with minimal side effects.
 - Follow coding best practices.
 - Add or update unit/integration tests to cover the fix.
@@ -45,6 +49,7 @@ A clear and professional approach to identify, analyze, and resolve reported iss
 ---
 
 ## 🧪 5. Verify the Fix
+
 - Test the original failing scenario.
 - Confirm with the original reporter (if possible).
 - Perform **regression testing** to ensure no side effects.
@@ -52,6 +57,7 @@ A clear and professional approach to identify, analyze, and resolve reported iss
 ---
 
 ## 🚀 6. Deploy the Fix
+
 - Use CI/CD pipelines for safe and automated deployment.
 - Use:
     - Feature flags
@@ -62,6 +68,7 @@ A clear and professional approach to identify, analyze, and resolve reported iss
 ---
 
 ## 📝 7. Document the Issue and Fix
+
 - Update the issue tracker (JIRA, GitHub Issues, etc.) with:
     - Root cause
     - Fix details
@@ -71,6 +78,7 @@ A clear and professional approach to identify, analyze, and resolve reported iss
 ---
 
 ## 🔁 8. Prevent Future Recurrence
+
 - Add:
     - Monitoring and alerting
     - Input validation or fallback mechanisms

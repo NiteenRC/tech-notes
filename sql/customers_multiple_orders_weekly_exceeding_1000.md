@@ -1,4 +1,5 @@
 # 📦 SQL Query: Customers with 2+ Orders in Same Week and > $1000 Total
+
 Find customers who made **two or more orders** within the **same calendar week**  
 **AND** whose total **weekly order amount exceeded $1000**.
 
@@ -41,7 +42,7 @@ HAVING COUNT(o.id) >= 2 AND SUM(o.total_amount) > 1000;
 ## 📋 Expected Output
 
 | customerName |
-| ------------ |
+|--------------|
 | Alice        |
 
 > Alice made 2 orders in the same week totaling \$1100 → included.

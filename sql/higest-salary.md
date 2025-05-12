@@ -1,16 +1,17 @@
 ## 🗂️ Table: Employee
 
-| ID | EMAIL           | SALARY |
-|----|------------------|--------|
-| 1  | ABC@GMAIL.COM    | 200    |
-| 2  | ABC@GMAIL.COM    | 300    |
-| 3  | CDE@GMAIL.COM    | 400    |
+| ID | EMAIL         | SALARY |
+|----|---------------|--------|
+| 1  | ABC@GMAIL.COM | 200    |
+| 2  | ABC@GMAIL.COM | 300    |
+| 3  | CDE@GMAIL.COM | 400    |
 
 ---
 
 ## ✅ 1. Get the second highest salary
 
 ### 🔍 Query
+
 ```sql
 SELECT SALARY
 FROM Employee
@@ -21,7 +22,7 @@ LIMIT 1 OFFSET 1;  -- or LIMIT 1, 1 in MySQL
 ### 📋 Output
 
 | SALARY |
-| ------ |
+|--------|
 | 300    |
 
 ---
@@ -29,7 +30,7 @@ LIMIT 1 OFFSET 1;  -- or LIMIT 1, 1 in MySQL
 ## 🗂️ Table: Student
 
 | ID | EMAIL                                 |
-| -- | ------------------------------------- |
+|----|---------------------------------------|
 | 1  | [ABC@GMAIL.COM](mailto:ABC@GMAIL.COM) |
 | 2  | [ABC@GMAIL.COM](mailto:ABC@GMAIL.COM) |
 | 3  | [CDE@GMAIL.COM](mailto:CDE@GMAIL.COM) |
@@ -50,7 +51,7 @@ HAVING COUNT(EMAIL) > 1;
 ### 📋 Output
 
 | EMAIL                                 |
-| ------------------------------------- |
+|---------------------------------------|
 | [ABC@GMAIL.COM](mailto:ABC@GMAIL.COM) |
 
 ---

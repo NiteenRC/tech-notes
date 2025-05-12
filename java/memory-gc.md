@@ -62,7 +62,7 @@
 ### 🔹 Garbage Collection (GC)
 
 | GC Type        | Description                       |
-| -------------- | --------------------------------- |
+|----------------|-----------------------------------|
 | Serial GC      | Single-threaded, small apps       |
 | Parallel GC    | Multi-threaded, better throughput |
 | CMS GC         | Low pause, partially concurrent   |
@@ -80,7 +80,7 @@
 ### 🔹 JVM Memory Tuning Parameters
 
 | Flag                   | Description              |
-| ---------------------- | ------------------------ |
+|------------------------|--------------------------|
 | `-Xms`                 | Initial heap size        |
 | `-Xmx`                 | Maximum heap size        |
 | `-Xss`                 | Thread stack size        |

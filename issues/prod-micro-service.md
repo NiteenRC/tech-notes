@@ -1,6 +1,7 @@
 # 🛠️ Practical Production Issue Tracing Without Realtime Tracing
 
-A simplified, effective approach to trace and fix production issues in microservices **without** distributed tracing tools.
+A simplified, effective approach to trace and fix production issues in microservices **without** distributed tracing
+tools.
 
 ---
 
@@ -76,9 +77,9 @@ A simplified, effective approach to trace and fix production issues in microserv
 
 ## 🔐 Bonus: Build Better Observability
 
-| Area        | Practical Tip                                     |
-|-------------|---------------------------------------------------|
-| Logs        | Use `requestId`, `userId`, `serviceName`          |
-| Error Logs  | Always include stack trace and request context    |
-| Monitoring  | Add alerts on error rate, latency, DB timeouts    |
-| Consistency | Use common log format across all microservices    |
+| Area        | Practical Tip                                  |
+|-------------|------------------------------------------------|
+| Logs        | Use `requestId`, `userId`, `serviceName`       |
+| Error Logs  | Always include stack trace and request context |
+| Monitoring  | Add alerts on error rate, latency, DB timeouts |
+| Consistency | Use common log format across all microservices |

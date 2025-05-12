@@ -1,9 +1,12 @@
-
 # Resilience4j Configuration
-This demonstrates the use of **Resilience4j** to add fault tolerance to microservices. The configuration includes **CircuitBreaker**, **Retry**, **Bulkhead**, **RateLimiter**, and **TimeLimiter** for the `productService`.
+
+This demonstrates the use of **Resilience4j** to add fault tolerance to microservices. The configuration includes *
+*CircuitBreaker**, **Retry**, **Bulkhead**, **RateLimiter**, and **TimeLimiter** for the `productService`.
 
 ### 1. CircuitBreaker
-**CircuitBreaker** is used to detect failures and prevent system overload by preventing excessive requests to a failing service.
+
+**CircuitBreaker** is used to detect failures and prevent system overload by preventing excessive requests to a failing
+service.
 
 ### ✅ **Resilience4j CircuitBreaker YAML Config (Improved)**
 
@@ -28,16 +31,19 @@ resilience4j.circuitbreaker:
 ---
 
 ### 🔁 **State Transitions Summary**
-| State         | Trigger                                                                 |
-|---------------|-------------------------------------------------------------------------|
-| **CLOSED**     | Normal flow. Failures < 50%.                                            |
-| **OPEN**       | ≥50% of last 10 calls failed (excluding ignored exceptions).            |
-| **HALF-OPEN**  | After 5s, allow 2 trial calls. If they succeed, go CLOSED, else OPEN.   |
+
+| State         | Trigger                                                               |
+|---------------|-----------------------------------------------------------------------|
+| **CLOSED**    | Normal flow. Failures < 50%.                                          |
+| **OPEN**      | ≥50% of last 10 calls failed (excluding ignored exceptions).          |
+| **HALF-OPEN** | After 5s, allow 2 trial calls. If they succeed, go CLOSED, else OPEN. |
 
 ---
 
 ### 🔎 **Usage Example**
+
 ```java
+
 @CircuitBreaker(name = "productService", fallbackMethod = "fallback")
 public Product getProduct(String id) {
     // call downstream service
@@ -51,6 +57,7 @@ public Product fallback(String id, Throwable t) {
 ---
 
 ### 2. Retry
+
 **Retry** allows the system to retry failed operations a defined number of times before giving up.
 
 ```yaml
@@ -73,6 +80,7 @@ resilience4j.retry:
 ---
 
 ### 3. Bulkhead
+
 **Bulkhead** provides isolation between different parts of the system to prevent one failure from affecting other parts.
 
 ```yaml
@@ -88,6 +96,7 @@ resilience4j.bulkhead:
 ---
 
 ### 4. RateLimiter
+
 **RateLimiter** is used to limit the rate of requests to the service to prevent overloading.
 
 ```yaml
@@ -102,6 +111,7 @@ resilience4j.ratelimiter:
 ---
 
 ### 5. TimeLimiter
+
 **TimeLimiter** is used to impose a timeout on operations and can cancel the running future if the timeout is exceeded.
 
 ```yaml
@@ -119,15 +129,18 @@ resilience4j.timeLimiter:
 Make sure to include the following dependencies in your `pom.xml` (for Maven) or `build.gradle` (for Gradle):
 
 ### Maven
+
 ```xml
+
 <dependency>
-  <groupId>io.github.resilience4j</groupId>
-  <artifactId>resilience4j-spring-boot2</artifactId>
-  <version>1.7.0</version>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot2</artifactId>
+    <version>1.7.0</version>
 </dependency>
 ```
 
 ### Gradle
+
 ```gradle
 implementation 'io.github.resilience4j:resilience4j-spring-boot2:1.7.0'
 ```
@@ -138,11 +151,13 @@ implementation 'io.github.resilience4j:resilience4j-spring-boot2:1.7.0'
 
 1. Add the configuration to your `application.yml` or `application.properties`.
 2. Ensure the Resilience4j dependencies are added to your project.
-3. Inject the Resilience4j components (e.g., `CircuitBreaker`, `Retry`, `Bulkhead`, `RateLimiter`, `TimeLimiter`) into your service classes.
+3. Inject the Resilience4j components (e.g., `CircuitBreaker`, `Retry`, `Bulkhead`, `RateLimiter`, `TimeLimiter`) into
+   your service classes.
 
 Example usage in a service class:
 
 ```java
+
 @Autowired
 private CircuitBreakerRegistry circuitBreakerRegistry;
 
@@ -163,7 +178,8 @@ private TimeLimiterRegistry timeLimiterRegistry;
 
 ## Monitoring
 
-You can monitor the state of the Resilience4j components (CircuitBreaker, Retry, etc.) using health indicators and metrics exposed via Actuator. Ensure the following is added to your configuration:
+You can monitor the state of the Resilience4j components (CircuitBreaker, Retry, etc.) using health indicators and
+metrics exposed via Actuator. Ensure the following is added to your configuration:
 
 ```yaml
 management:

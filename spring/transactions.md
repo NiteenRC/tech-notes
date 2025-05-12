@@ -3,7 +3,8 @@
 ## Use Case 1: Bank Transfer (Basic Transaction with Rollback)
 
 **Scenario:**  
-A typical use case in banking applications where you need to transfer funds between two accounts. If anything goes wrong (like insufficient funds, or DB error), the entire transaction should be rolled back.
+A typical use case in banking applications where you need to transfer funds between two accounts. If anything goes
+wrong (like insufficient funds, or DB error), the entire transaction should be rolled back.
 
 ### Implementation:
 
@@ -38,7 +39,9 @@ public class BankingService {
 ```
 
 ### Key Insights:
-- **Rollback Mechanism:** The `@Transactional` ensures that if an exception is thrown (like insufficient funds or any DB issue), **all changes** (debit, credit, log) are rolled back automatically.
+
+- **Rollback Mechanism:** The `@Transactional` ensures that if an exception is thrown (like insufficient funds or any DB
+  issue), **all changes** (debit, credit, log) are rolled back automatically.
 - **Exception Handling:** `rollbackFor` ensures even **checked exceptions** will trigger a rollback.
 
 ---
@@ -46,7 +49,8 @@ public class BankingService {
 ## Use Case 2: Nested Transactions (Handling Multiple Layers)
 
 **Scenario:**  
-You have a service layer where a method calls another service method, and you want the inner method to run as a **separate transaction** (i.e., independent of the outer one).
+You have a service layer where a method calls another service method, and you want the inner method to run as a *
+*separate transaction** (i.e., independent of the outer one).
 
 ### Implementation:
 
@@ -73,15 +77,21 @@ public class OrderService {
 ```
 
 ### Key Insights:
-- **REQUIRES_NEW Propagation:** When you use `@Transactional(propagation = Propagation.REQUIRES_NEW)`, the inner method runs in **its own transaction**, independent of the outer method. If the outer method fails, the inner method's transaction will still commit if successful.
-- **Real-World Use Case:** This is useful when you need isolated operations that should commit even if the outer transaction fails (e.g., logging, audit entries).
+
+- **REQUIRES_NEW Propagation:** When you use `@Transactional(propagation = Propagation.REQUIRES_NEW)`, the inner method
+  runs in **its own transaction**, independent of the outer method. If the outer method fails, the inner method's
+  transaction will still commit if successful.
+- **Real-World Use Case:** This is useful when you need isolated operations that should commit even if the outer
+  transaction fails (e.g., logging, audit entries).
 
 ---
 
 ## Use Case 3: Transaction Isolation Levels (Preventing Dirty Reads)
 
 **Scenario:**  
-In a high-concurrency environment, you may need to control how transactions interact with each other, especially when **dirty reads**, **non-repeatable reads**, or **phantom reads** can occur. Using **transaction isolation** can help prevent these.
+In a high-concurrency environment, you may need to control how transactions interact with each other, especially when *
+*dirty reads**, **non-repeatable reads**, or **phantom reads** can occur. Using **transaction isolation** can help
+prevent these.
 
 ### Implementation:
 
@@ -102,17 +112,21 @@ public class ProductService {
 ```
 
 ### Key Insights:
+
 - **Isolation Levels:**
     - **`Isolation.READ_COMMITTED`** prevents dirty reads but allows non-repeatable reads.
-    - **`Isolation.SERIALIZABLE`** is the strictest level, preventing dirty reads, non-repeatable reads, and phantom reads but can lead to performance degradation due to locking.
-- **Real-World Use Case:** You use `SERIALIZABLE` for critical operations where **data consistency** is more important than **throughput** (e.g., banking or financial transactions).
+    - **`Isolation.SERIALIZABLE`** is the strictest level, preventing dirty reads, non-repeatable reads, and phantom
+      reads but can lead to performance degradation due to locking.
+- **Real-World Use Case:** You use `SERIALIZABLE` for critical operations where **data consistency** is more important
+  than **throughput** (e.g., banking or financial transactions).
 
 ---
 
 ## Use Case 4: Manual Transaction Management (JDBC)
 
 **Scenario:**  
-In cases where Spring's automatic transaction management doesn't fit (e.g., you need fine-grained control), you can use **manual transaction management** using `PlatformTransactionManager`.
+In cases where Spring's automatic transaction management doesn't fit (e.g., you need fine-grained control), you can use
+**manual transaction management** using `PlatformTransactionManager`.
 
 ### Implementation:
 
@@ -154,17 +168,22 @@ public class ManualTransactionService {
 ```
 
 ### Key Insights:
-- **Manual Transaction Management:** You can manually control when to commit or rollback using `PlatformTransactionManager`. This is useful when you need more control than `@Transactional` provides.
-- **Real-World Use Case:** If you're dealing with complex transactions that span multiple systems (e.g., integrating legacy systems or multiple databases).
+
+- **Manual Transaction Management:** You can manually control when to commit or rollback using
+  `PlatformTransactionManager`. This is useful when you need more control than `@Transactional` provides.
+- **Real-World Use Case:** If you're dealing with complex transactions that span multiple systems (e.g., integrating
+  legacy systems or multiple databases).
 
 ---
 
 ## Use Case 5: Microservices - Saga Pattern for Distributed Transactions
 
 **Scenario:**  
-In a microservices architecture, you may need to manage distributed transactions where one service fails after other services have already committed their changes. The **Saga Pattern** helps handle this.
+In a microservices architecture, you may need to manage distributed transactions where one service fails after other
+services have already committed their changes. The **Saga Pattern** helps handle this.
 
 ### Implementation:
+
 - **Orchestration Saga**: One central service coordinates the transaction.
 - **Choreography Saga**: Services communicate with each other to manage the transaction.
 
@@ -204,11 +223,18 @@ public class PaymentService {
 ```
 
 ### Key Insights:
-- **Saga Pattern:** Helps maintain data consistency in **distributed systems** where **2-phase commit** is not feasible. Instead of rolling back everything in case of failure, compensating actions (like `cancelOrder`) are performed to undo the changes made by other services.
-- **Real-World Use Case:** Useful in **e-commerce** or **order management systems** where services like **payment**, **inventory**, and **shipping** are handled by separate microservices.
+
+- **Saga Pattern:** Helps maintain data consistency in **distributed systems** where **2-phase commit** is not feasible.
+  Instead of rolling back everything in case of failure, compensating actions (like `cancelOrder`) are performed to undo
+  the changes made by other services.
+- **Real-World Use Case:** Useful in **e-commerce** or **order management systems** where services like **payment**, *
+  *inventory**, and **shipping** are handled by separate microservices.
 
 ---
 
 # Conclusion
 
-These **real-time use cases** showcase how **Spring Transactions** can be applied in different scenarios, from simple single-database transactions to complex distributed system transactions. Mastery of these will help you not only in **interviews** but also in **real-world production systems** where you must handle data consistency, isolation, and rollback behaviors effectively.
+These **real-time use cases** showcase how **Spring Transactions** can be applied in different scenarios, from simple
+single-database transactions to complex distributed system transactions. Mastery of these will help you not only in *
+*interviews** but also in **real-world production systems** where you must handle data consistency, isolation, and
+rollback behaviors effectively.

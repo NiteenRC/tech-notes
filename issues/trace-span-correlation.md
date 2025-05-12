@@ -2,11 +2,11 @@
 
 ## Key Differences
 
-| Concept         | `traceId`                                             | `spanId`                                            | `correlationId`                                            |
-|-----------------|------------------------------------------------------|----------------------------------------------------|-----------------------------------------------------------|
-| **Scope**       | Entire request across services                       | Single service operation                           | Cross-service log correlation                            |
-| **Uniqueness**  | Same across services involved in the request         | Unique per operation                                | Unique per request, used across systems                   |
-| **Purpose**     | Links activities across microservices                 | Tracks performance of individual operations         | Correlates logs across services                          |
+| Concept        | `traceId`                                    | `spanId`                                    | `correlationId`                         |
+|----------------|----------------------------------------------|---------------------------------------------|-----------------------------------------|
+| **Scope**      | Entire request across services               | Single service operation                    | Cross-service log correlation           |
+| **Uniqueness** | Same across services involved in the request | Unique per operation                        | Unique per request, used across systems |
+| **Purpose**    | Links activities across microservices        | Tracks performance of individual operations | Correlates logs across services         |
 
 ## Visual Representation
 
@@ -34,7 +34,8 @@ correlationId: req-001234
 ## Example
 
 - A request flows from **API Gateway** → **Auth Service** → **Order Service** → **Payment Service**.
-- Each service logs with `traceId`, and each operation within a service has its own `spanId`. The `correlationId` ties logs across systems for easy traceability.
+- Each service logs with `traceId`, and each operation within a service has its own `spanId`. The `correlationId` ties
+  logs across systems for easy traceability.
 
 ## Where to Use
 
@@ -62,9 +63,10 @@ Logs:
 
 ## Summary
 
-| **Concept**     | **Use Case**                         | **Where It’s Found**           |
-|-----------------|--------------------------------------|--------------------------------|
-| **`traceId`**   | Tracks the entire request journey    | Distributed tracing systems    |
-| **`spanId`**    | Tracks a single service operation    | In service logs                |
-| **`correlationId`** | Correlates logs across services      | Centralized logging platforms |
+| **Concept**         | **Use Case**                      | **Where It’s Found**          |
+|---------------------|-----------------------------------|-------------------------------|
+| **`traceId`**       | Tracks the entire request journey | Distributed tracing systems   |
+| **`spanId`**        | Tracks a single service operation | In service logs               |
+| **`correlationId`** | Correlates logs across services   | Centralized logging platforms |
+
 ```

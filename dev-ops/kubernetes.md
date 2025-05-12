@@ -1,9 +1,9 @@
 ### ✅ **1. Deployment vs Service**
 
-| Component     | Purpose                                               |
-|---------------|--------------------------------------------------------|
-| Deployment    | Manages replicas, rolling updates                     |
-| Service       | Stable networking (ClusterIP, NodePort, LB)           |
+| Component  | Purpose                                     |
+|------------|---------------------------------------------|
+| Deployment | Manages replicas, rolling updates           |
+| Service    | Stable networking (ClusterIP, NodePort, LB) |
 
 🔍 **Real Case**:  
 Pods changed IPs; external system broke. Switched to using Service DNS: `billing-service.default.svc.cluster.local`.
@@ -28,6 +28,7 @@ Pods changed IPs; external system broke. Switched to using Service DNS: `billing
 ### ✅ **3. Zero-Downtime Deployment**
 
 #### 🌀 Rolling Update Strategy
+
 ```yaml
 strategy:
   type: RollingUpdate
@@ -37,6 +38,7 @@ strategy:
 ```
 
 #### 📡 Readiness & Liveness Probes
+
 ```yaml
 readinessProbe:
   httpGet:
@@ -50,6 +52,7 @@ livenessProbe:
 ```
 
 #### 🛑 Graceful Shutdown
+
 ```yaml
 lifecycle:
   preStop:
@@ -62,6 +65,7 @@ lifecycle:
 ### ✅ **4. Auto-scaling in Kubernetes**
 
 #### 📈 Horizontal Pod Autoscaler (HPA)
+
 ```yaml
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -82,6 +86,7 @@ spec:
 ---
 
 #### 🧠 Vertical Pod Autoscaler (VPA)
+
 - Adjusts `resources.requests/limits`
 - Best for: batch/memory-intensive jobs
 
@@ -90,12 +95,14 @@ spec:
 ---
 
 #### 🧱 Cluster Autoscaler (CA)
+
 - Adds/removes nodes based on pod needs
 - Works with AWS, GCP, Azure clusters
 
 ---
 
 🔄 **Real Example**:
+
 - `pdf-service` scaled from 3 → 12 pods via HPA (CPU > 80%)
 - Cluster Autoscaler added 2 nodes
 - Readiness probe ensured only healthy pods served traffic
@@ -104,12 +111,12 @@ spec:
 
 ### ✅ **5. Canary vs Blue-Green Deployment**
 
-| Strategy    | Canary                                  | Blue-Green                              |
-|-------------|------------------------------------------|------------------------------------------|
-| Rollout     | Gradual (10%, 50%, 100%)                | Full switch to green after verification  |
-| Risk        | Low – only a portion is impacted        | Low – instant rollback                  |
-| Rollback    | Reduce traffic %                         | Switch DNS or service label             |
-| Best For    | Frequent small releases                 | Major stable updates                    |
+| Strategy | Canary                           | Blue-Green                              |
+|----------|----------------------------------|-----------------------------------------|
+| Rollout  | Gradual (10%, 50%, 100%)         | Full switch to green after verification |
+| Risk     | Low – only a portion is impacted | Low – instant rollback                  |
+| Rollback | Reduce traffic %                 | Switch DNS or service label             |
+| Best For | Frequent small releases          | Major stable updates                    |
 
 🔍 Example:  
 Rolled out `pricing-engine` with 10% traffic, validated, then scaled to 100%.

@@ -1,6 +1,7 @@
 # 📦 S3 Large File Uploader with Retry (Java)
 
-This project demonstrates how to reliably upload large files to Amazon S3 using AWS SDK v1's `TransferManager`, with built-in support for multipart uploads, progress monitoring, and automatic retry logic using exponential backoff.
+This project demonstrates how to reliably upload large files to Amazon S3 using AWS SDK v1's `TransferManager`, with
+built-in support for multipart uploads, progress monitoring, and automatic retry logic using exponential backoff.
 
 ---
 
@@ -40,7 +41,9 @@ Add this to your `pom.xml`:
 ```
 
 ## 💻 Java Code
-Below is the full Java implementation that includes retry logic, exponential backoff, multipart upload configuration, and graceful shutdown.
+
+Below is the full Java implementation that includes retry logic, exponential backoff, multipart upload configuration,
+and graceful shutdown.
 
 ```
 import com.amazonaws.AmazonClientException;

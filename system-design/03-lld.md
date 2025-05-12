@@ -1,17 +1,20 @@
 # 🔧 Low-Level Design (LLD) Process
 
 ## ❓ Question:
+
 **How do you proceed with Low-Level Design (LLD) after completing HLD?**
 
 ---
 
 ## ✅ Answer:
 
-Once the High-Level Design (HLD) is finalized and signed off, I proceed with Low-Level Design (LLD) using the following steps:
+Once the High-Level Design (HLD) is finalized and signed off, I proceed with Low-Level Design (LLD) using the following
+steps:
 
 ---
 
 ### 1. 📖 Understand the HLD in Depth
+
 - Revisit the HLD document to:
     - Understand component responsibilities
     - Analyze module interactions
@@ -20,6 +23,7 @@ Once the High-Level Design (HLD) is finalized and signed off, I proceed with Low
 ---
 
 ### 2. 🧩 Design Each Module in Detail
+
 - Break down the system into **individual modules/services**.
 - Define:
     - Classes and Interfaces
@@ -30,6 +34,7 @@ Once the High-Level Design (HLD) is finalized and signed off, I proceed with Low
 ---
 
 ### 3. 🗃️ Define Class Diagrams
+
 - Create UML Class Diagrams to capture:
     - Class relationships (Inheritance, Composition)
     - Attributes and methods
@@ -40,6 +45,7 @@ Once the High-Level Design (HLD) is finalized and signed off, I proceed with Low
 ---
 
 ### 4. 🔄 Sequence Diagrams / Flowcharts
+
 - Design sequence diagrams to show:
     - Interaction flow between objects/components
     - Step-by-step logic execution
@@ -48,6 +54,7 @@ Once the High-Level Design (HLD) is finalized and signed off, I proceed with Low
 ---
 
 ### 5. 🗂️ Database Design (LLD-Level)
+
 - Design normalized tables or document schemas.
 - Define indexes, constraints, and data access patterns.
 - Map entities to DB tables (ORM strategy if applicable)
@@ -55,6 +62,7 @@ Once the High-Level Design (HLD) is finalized and signed off, I proceed with Low
 ---
 
 ### 6. 🧪 Exception Handling & Edge Cases
+
 - Define how each component handles:
     - Exceptions and failures
     - Timeouts or retries
@@ -63,6 +71,7 @@ Once the High-Level Design (HLD) is finalized and signed off, I proceed with Low
 ---
 
 ### 7. 🔐 Security Considerations
+
 - Incorporate detailed plans for:
     - Authentication & Authorization (e.g., JWT, OAuth2)
     - Data validation & sanitization
@@ -71,6 +80,7 @@ Once the High-Level Design (HLD) is finalized and signed off, I proceed with Low
 ---
 
 ### 8. 🧪 Include Unit Test Plans
+
 - Identify:
     - Testable components
     - Input/output scenarios
@@ -79,7 +89,9 @@ Once the High-Level Design (HLD) is finalized and signed off, I proceed with Low
 ---
 
 ### 9. 📝 Create the LLD Document
+
 Include:
+
 - Class diagrams & flow diagrams
 - Detailed module-level logic
 - API contracts (URL, method, payload)
@@ -91,6 +103,7 @@ Include:
 ---
 
 ### 10. 🤝 Review and Freeze
+
 - Review LLD with:
     - Team leads
     - Architects

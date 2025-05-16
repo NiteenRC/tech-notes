@@ -1,254 +1,183 @@
-**Real-time production setup**, **Kubernetes + Istio implementation**, and **interview preparation tips**:
+# 🚀 Blue-Green Deployment Strategy (Kubernetes + Spring Boot)
+
+## 📌 Objective
+
+Implement **zero-downtime deployment** for a Spring Boot application using the **Blue-Green strategy** in Kubernetes.
 
 ---
 
-### 📘 `blue-green-deployment-interview-prep.md`
+## 🔁 Deployment Flow
 
-# 🚀 Blue-Green Deployment for Production: Complete Guide + Interview Preparation
-
-## 🎯 Objective
-
-To implement **Blue-Green Deployment** using **Kubernetes** and **Istio** in a **production-ready microservices
-environment**, with an emphasis on **zero downtime**, **canary testing**, **DB schema management**, **rollback
-capabilities**, and **observability**.
+1. **Blue version (v1)** is running and serving production traffic.
+2. Deploy **Green version (v2)** side-by-side (same app, different version).
+3. Run **integration and smoke tests** on Green (v2).
+4. If stable, switch traffic from Blue to Green.
+5. Rollback? Revert the traffic routing to Blue.
 
 ---
 
-## 🧱 Architecture
+## 📂 Directory Structure
 
 ```
 
-Users
-│
-Ingress Gateway (Istio)
-│
-VirtualService
-├── Blue v1 (current, live)
-└── Green v2 (new, staged)
-│
-└── Shared Database (PostgreSQL, MySQL, etc.)
+k8s/
+├── myapp-blue.yaml
+├── myapp-green.yaml
+└── myapp-service.yaml
 
 ````
 
 ---
 
-## ✅ What is Blue-Green Deployment?
+## 🧩 Kubernetes YAML Files
 
-- **Blue-Green Deployment** is a strategy where you maintain two **production environments**: **Blue** (current version)
-  and **Green** (new version).
-- Initially, all traffic goes to Blue. Once Green is fully deployed and verified, traffic is switched to Green. Blue
-  remains as a backup in case of failure.
-- This ensures **zero downtime** and allows for **instant rollback** to Blue.
-
----
-
-## ✅ Real-world Production Workflow
-
-1. **Blue Environment (v1)** runs the current stable version, serving 100% of traffic.
-2. Deploy **Green Environment (v2)** with the new version of your application.
-3. **Health checks** and **automated tests** are run in the Green environment.
-4. Use **canary traffic** routing to test Green with a small subset of traffic.
-5. If Green performs well, **shift 100% traffic** to Green.
-6. Optionally, keep Blue alive for easy rollback, or delete it after a successful Green deployment.
-7. If Green fails at any point, switch traffic back to Blue instantly.
-
----
-
-## 🗂️ Kubernetes Deployment (with Probes, Resources, and Scaling)
-
-### `blue-deployment.yaml`
+### 🔹 Blue Deployment
 
 ```yaml
+# myapp-blue.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app-blue
+  name: myapp-blue
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: my-app
+      app: myapp
       version: blue
   template:
     metadata:
       labels:
-        app: my-app
+        app: myapp
         version: blue
     spec:
       containers:
-        - name: my-app
-          image: myorg/myapp:v1
+        - name: myapp
+          image: myregistry/myapp:v1
           ports:
             - containerPort: 8080
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 10
-          resources:
-            requests:
-              cpu: "250m"
-              memory: "512Mi"
-            limits:
-              cpu: "500m"
-              memory: "1Gi"
 ````
 
 ---
 
-### `green-deployment.yaml`
+### 🔹 Green Deployment
 
-> **Same as Blue** with a new image: `image: myorg/myapp:v2` and `version: green`.
+```yaml
+# myapp-green.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-green
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+      version: green
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: green
+    spec:
+      containers:
+        - name: myapp
+          image: myregistry/myapp:v2
+          ports:
+            - containerPort: 8080
+```
 
 ---
 
-## 🔀 Service + Istio Routing
-
-### `service.yaml`
+### 🔹 Traffic Service (Switchable)
 
 ```yaml
+# myapp-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-app-service
+  name: myapp-service
 spec:
   selector:
-    app: my-app
+    app: myapp
+    version: blue  # ✅ Switch to "green" for cutover
   ports:
-    - port: 80
+    - protocol: TCP
+      port: 80
       targetPort: 8080
+  type: LoadBalancer
 ```
 
 ---
 
-### `destination-rule.yaml`
+## 🔀 Switching Traffic
 
-```yaml
-apiVersion: networking.istio.io/v1beta1
-kind: DestinationRule
-metadata:
-  name: my-app-dr
-spec:
-  host: my-app-service
-  subsets:
-    - name: blue
-      labels:
-        version: blue
-    - name: green
-      labels:
-        version: green
+To route production traffic from **Blue to Green**:
+
+```bash
+kubectl patch svc myapp-service -p '{"spec":{"selector":{"app":"myapp","version":"green"}}}'
+```
+
+To rollback (route back to Blue):
+
+```bash
+kubectl patch svc myapp-service -p '{"spec":{"selector":{"app":"myapp","version":"blue"}}}'
 ```
 
 ---
 
-### `virtual-service.yaml` (initial - Blue only)
+## ✅ Health Check Before Cutover
 
-```yaml
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: my-app-vs
-spec:
-  hosts:
-    - "*"
-  gateways:
-    - my-gateway
-  http:
-    - route:
-        - destination:
-            host: my-app-service
-            subset: blue
-          weight: 100
+```bash
+kubectl port-forward deployment/myapp-green 8081:8080
+curl http://localhost:8081/actuator/health
+```
+
+Monitor:
+
+* Logs (e.g., via `kubectl logs`)
+* Prometheus + Grafana dashboards
+* ELK / Loki logs
+* App-specific metrics and traces
+
+---
+
+## 🔥 Cleanup (Optional)
+
+Once Green is stable and serving traffic:
+
+```bash
+kubectl delete deployment myapp-blue
 ```
 
 ---
 
-## 🧪 Step: Canary Test (Optional)
+## 🔐 Best Practices
 
-```yaml
-http:
-  - route:
-      - destination:
-          host: my-app-service
-          subset: green
-        weight: 10
-      - destination:
-          host: my-app-service
-          subset: blue
-        weight: 90
-```
-
-Use **Grafana dashboards + Prometheus alerts** to monitor errors and latency.
+* Use **Helm** to template and manage versions.
+* Integrate with **CI/CD pipelines** for auto-promotion.
+* Use **Istio or NGINX Ingress** for advanced traffic routing.
+* Gate production cutover with approvals in GitOps tools (e.g., ArgoCD).
+* Monitor rollback safety using feature flags (e.g., Unleash or FF4J).
 
 ---
 
-## ✅ Step: Full Cutover to Green
+## 📎 References
 
-```yaml
-http:
-  - route:
-      - destination:
-          host: my-app-service
-          subset: green
-        weight: 100
-```
+* [Kubernetes Blue-Green Deployment](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/)
+* [Spring Boot Actuator Health](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)
 
 ---
 
-## 🛑 Step: Rollback if Needed
+## 🧠 Summary
 
-Revert to Blue subset in `VirtualService`.
-
----
-
-## 🛡️ Database Strategy
-
-| Step                    | Action                                                     |
-|-------------------------|------------------------------------------------------------|
-| ✅ Pre-migration         | Apply schema changes that are backward compatible          |
-| ✅ Version-tolerant code | Both v1 and v2 must handle new/old fields gracefully       |
-| ⚠️ Avoid                | Destructive changes like field deletion or column renaming |
-| ✅ Optional              | Use Flyway or Liquibase for versioned migrations           |
-
----
-
-## 🔍 Monitoring (Production Readiness)
-
-* ✅ **Istio Telemetry** with **Prometheus** for metrics collection.
-* ✅ **Grafana** dashboards for real-time monitoring.
-* ✅ Set **alerts** for 5xx errors, latency spikes, etc.
-* ✅ **Health checks** via Istio probes.
-
----
-
-## 🔄 CI/CD Integration
-
-| Stage         | Tool Example                 |
-|---------------|------------------------------|
-| Build         | Jenkins / GitHub Actions     |
-| Test          | JUnit + REST Assured         |
-| Deploy Blue   | ArgoCD / Helm / GitOps       |
-| Deploy Green  | Manual or ArgoCD stage       |
-| Shift Traffic | GitOps PR or `kubectl apply` |
-| Observe       | Grafana dashboards           |
-| Rollback      | Revert VirtualService        |
-
----
-
-## 📌 Best Practices
-
-* Use **separate logging** for Blue & Green (`version` label).
-* Validate Green with **synthetic traffic** first.
-* Keep Blue alive until Green is fully verified.
-* Always **test rollback** before production deployments.
-* Automate with **GitOps pipelines** (ArgoCD, Flux).
+| Category   | Blue-Green Deployment         |
+| ---------- | ----------------------------- |
+| Downtime   | ❌ Zero                        |
+| Rollback   | ✅ Instant                     |
+| Complexity | ⚠️ Moderate                   |
+| Cost       | 💰 Higher (two versions live) |
+| Best for   | ✅ Major releases              |
 
 ---
 
